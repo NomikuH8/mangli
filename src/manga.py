@@ -11,7 +11,6 @@
 # author
 # scanlators
 import requests
-from collections import OrderedDict
 from volume import Volume
 import configs
 import utils
@@ -41,7 +40,7 @@ class Manga():
             attrs = data['attributes']
             rel_ships = data['relationships']
 
-            self.data['title'] = list(attrs['title'])[0]
+            self.data['title'] = list(attrs['title'].values())[0]
 
             self.data['altTitles'] = []
             for i in attrs['altTitles']:
@@ -78,7 +77,7 @@ class Manga():
 
     def get_volumes(self):
         '''
-        This function gets all the volumes with the chapters
+        This function gets all the volumes with the chapters.
         '''
         _url = utils.MANGA_URL + self.manga_id + '/aggregate?translatedLanguage[]=en'
         _resp = requests.get(_url)
@@ -97,9 +96,10 @@ class Manga():
         '''
         Returns the chapter dict, with its number, id and count
         '''
-        for j in list(self.data['volumes'].values())[0].chapters:
-            if j == chapter:
-                return list(self.data['volumes'].values())[0].chapters[j]
+        for i in range(len(list(self.data['volumes'].values()))):
+            for j in list(self.data['volumes'].values())[i].chapters:
+                if j == chapter:
+                    return list(self.data['volumes'].values())[i].chapters[j]
 
 
     def get_pages(self, chapter):
@@ -132,6 +132,10 @@ class Manga():
 
 # test
 # manga = Manga('b62659e0-fb91-4cf1-a62f-c4e058f9917a')
+# manga.get_info()
 # manga.get_volumes()
+# print(manga.data['volumes']['3'].volume_num)
+# print(manga.data)
+# print(manga.get_chapter('3'))
 # print(manga.get_page_urls('13'))
 # print(manga.data)

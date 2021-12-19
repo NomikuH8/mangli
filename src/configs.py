@@ -10,5 +10,9 @@ IN_PNG = True
 #	256
 COVER_SIZE = 512
 
+# time between download requests
+# minimum recommended: 0.2
+DOWNREQ_TIME = 0.2
+
 # download paths
-DOWNLOAD_PATH = ''
+DOWNLOAD_PATH = '/home/nomikuh8/test-mangacli'

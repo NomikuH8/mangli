@@ -10,6 +10,7 @@
 # content rating {safe, etc}
 # author
 # scanlators
+import re
 import requests
 from volume import Volume
 import configs
@@ -24,6 +25,13 @@ class Manga():
 
         self.volumes = []
         self.chapters_num = 0
+
+        tmp_id = manga_id
+        regex = r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+        try:
+            manga_id = re.findall(regex, tmp_id)[0]
+        except IndexError:
+            print("Couldn't find the manga id in the link")
 
         self.manga_id = manga_id
         self.hash = '' # id to take images
@@ -100,6 +108,7 @@ class Manga():
             for j in list(self.data['volumes'].values())[i].chapters:
                 if j == chapter:
                     return list(self.data['volumes'].values())[i].chapters[j]
+        return {}
 
 
     def get_pages(self, chapter):

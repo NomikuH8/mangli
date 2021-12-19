@@ -117,7 +117,6 @@ class ImageDownloader():
 
 
     def run(self, volume, chapter):
-        self.image_paths = []
         self.create_download_directory()
         self.create_volume_directory(volume)
         self.create_chapter_directory(chapter)
@@ -125,12 +124,20 @@ class ImageDownloader():
         self._el.run_until_complete(self.queue_image(chapter))
 
 
+class DownloadManager():
+    '''Download manager because 1 image downloader can download something once only'''
+    def __init__(self, manga: Manga):
+        self.manga = manga
+        self.manga.get_volumes()
+
+
     def download_all_volumes(self):
         '''Downloads all volumes'''
         print('Downloading everything...')
         for i in self.manga.data['volumes'].values():
             for j in i.chapters:
-                self.run(i.volume_num, j)
+                downn = ImageDownloader(self.manga)
+                downn.run(i.volume_num, j)
 
 
     def download_volume(self, volume):
@@ -138,7 +145,8 @@ class ImageDownloader():
         vol_to_down = self.manga.data['volumes'][str(volume)].chapters
         for i in vol_to_down.values():
             print('Downloading chapter ' + i['chapter'] + '...')
-            self.run(volume, i['chapter'])
+            downn = ImageDownloader(self.manga)
+            downn.run(volume, i['chapter'])
 
 
     def download_chapter(self, chapter):
@@ -147,11 +155,12 @@ class ImageDownloader():
         for i in self.manga.data['volumes'].values():
             for j in i.chapters:
                 if j == chapter:
-                    self.run(i.volume_num, j)
+                    downn = ImageDownloader(self.manga)
+                    downn.run(i.volume_num, j)
 
 
 manga = Manga('b62659e0-fb91-4cf1-a62f-c4e058f9917a')
-downloader = ImageDownloader(manga)
-#downloader.download_volume('1')
-#downloader.download_chapter('3')
-downloader.download_all_volumes()
+dm = DownloadManager(manga)
+#dm.download_volume('1')
+#dm.download_chapter('3')
+dm.download_all_volumes()

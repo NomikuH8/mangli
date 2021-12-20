@@ -15,4 +15,4 @@ COVER_SIZE = 512
 DOWNREQ_TIME = 0.2
 
 # download paths
-DOWNLOAD_PATH = '/home/nomikuh8/test-mangacli'
+DOWNLOAD_PATH = ''

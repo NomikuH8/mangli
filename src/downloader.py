@@ -150,8 +150,8 @@ class ImageDownloader():
                     self.run(i.volume_num, j)
 
 
-manga = Manga('b62659e0-fb91-4cf1-a62f-c4e058f9917a')
-downloader = ImageDownloader(manga)
+#manga = Manga('b62659e0-fb91-4cf1-a62f-c4e058f9917a')
+#downloader = ImageDownloader(manga)
 #downloader.download_volume('1')
 #downloader.download_chapter('3')
-downloader.download_all_volumes()
+#downloader.download_all_volumes()

@@ -29,7 +29,7 @@ class ImageDownloader():
         Creates the directory for download.
         '''
         validated_title = utils.validate_filename(self.manga.data['title'])
-        self.full_path = fr'{configs.DOWNLOAD_PATH}/{validated_title}'
+        self.full_path = fr'{configs.DOWNLOAD_PATH}/mangas/{validated_title}'
         if not os.path.exists(self.full_path):
             os.makedirs(self.full_path)
 

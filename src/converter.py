@@ -50,9 +50,9 @@ class ImageConverter():
                 self._add_image_to_conversion(fr'{i}/{str(j + 1)}.png')
 
         title = utils.validate_filename(self.manga.data['title'])
-        path_pdf = fr'{configs.DOWNLOAD_PATH}/pdfs'
+        path_pdf = fr'{configs.DOWNLOAD_PATH}/pdfs/{title}'
         if not os.path.exists(path_pdf):
-            os.mkdir(path_pdf)
+            os.makedirs(path_pdf)
 
         pdf_file = fr'{path_pdf}/[{title_flag}] {title}.pdf'
         self._generate_pdf(pdf_file)
@@ -146,9 +146,10 @@ class ImageConverter():
                     self.run_common(path_chap, chap_to_search)
 
 
-manga = Manga('b62659e0-fb91-4cf1-a62f-c4e058f9917a')
-conv = ImageConverter(manga)
+#manga = Manga('b62659e0-fb91-4cf1-a62f-c4e058f9917a')
+#manga = Manga('c52565c9-d99a-4380-9dc8-67369d448eb7')
+#conv = ImageConverter(manga)
 #conv.convert_chapter('15')
 #conv.convert_volume('3')
-conv.convert_volumes_separately()
+#conv.convert_volumes_separately()
 #conv.convert_all()

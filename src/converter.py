@@ -66,7 +66,7 @@ class ImageConverter():
         '''Converts the entire manga to pdf (not recommended)'''
         old_work_dir = os.getcwd()
         manga_name = utils.validate_filename(self.manga.data['title'])
-        dir_path = fr'{configs.DOWNLOAD_PATH}/{manga_name}'
+        dir_path = fr'{configs.DOWNLOAD_PATH}/mangas/{manga_name}'
 
         os.chdir(dir_path)
         volumes = os.listdir('.')
@@ -88,7 +88,7 @@ class ImageConverter():
         '''Convert one volume to pdf (most recommended)'''
         vol_to_search = 'vol_' + str(volume)
         manga_name = utils.validate_filename(self.manga.data['title'])
-        dir_path = fr'{configs.DOWNLOAD_PATH}/{manga_name}'
+        dir_path = fr'{configs.DOWNLOAD_PATH}/mangas/{manga_name}'
         path = os.listdir(dir_path)
 
         chapters = []
@@ -112,7 +112,7 @@ class ImageConverter():
     def convert_volumes_separately(self):
         '''Convert all volumes to pdf separately'''
         manga_name = utils.validate_filename(self.manga.data['title'])
-        dir_path = fr'{configs.DOWNLOAD_PATH}/{manga_name}'
+        dir_path = fr'{configs.DOWNLOAD_PATH}/mangas/{manga_name}'
         path = os.listdir(dir_path)
 
         chapters = []
@@ -136,7 +136,7 @@ class ImageConverter():
         '''Convert one chapter to pdf'''
         chap_to_search = 'chap_' + str(chapter)
         manga_name = utils.validate_filename(self.manga.data["title"])
-        dir_path = fr'{configs.DOWNLOAD_PATH}/{manga_name}'
+        dir_path = fr'{configs.DOWNLOAD_PATH}/mangas/{manga_name}'
         path = os.listdir(dir_path)
         for vol in path:
             path_vol = dir_path + '/' + vol

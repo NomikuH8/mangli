@@ -50,7 +50,6 @@ class ImageConverter():
                 self._add_image_to_conversion(fr'{i}/{str(j + 1)}.png')
 
         title = utils.validate_filename(self.manga.data['title'])
-        #self._generate_pdf(fr'../[{chap_paths[0].split("/")[-3]}] {title}.pdf')
         path_pdf = fr'{configs.DOWNLOAD_PATH}/pdfs'
         if not os.path.exists(path_pdf):
             os.mkdir(path_pdf)
@@ -109,6 +108,30 @@ class ImageConverter():
                 self.run_common(chapters, vol_to_search)
 
 
+
+    def convert_volumes_separately(self):
+        '''Convert all volumes to pdf separately'''
+        manga_name = utils.validate_filename(self.manga.data['title'])
+        dir_path = fr'{configs.DOWNLOAD_PATH}/{manga_name}'
+        path = os.listdir(dir_path)
+
+        chapters = []
+
+        for vol in path:
+            chapters = []
+            path_vol = dir_path + '/' + vol
+            chap = 999999
+            for i in os.listdir(path_vol):
+                num = int(re.findall(r'(?<=chap_)\d+', i)[-1])
+                chap = min(chap, num)
+            for i in os.listdir(path_vol):
+                chap_name = 'chap_' + str(chap)
+                chapters.append(fr'{path_vol}/{chap_name}')
+                chap += 1
+
+            self.run_common(chapters, vol)
+
+
     def convert_chapter(self, chapter):
         '''Convert one chapter to pdf'''
         chap_to_search = 'chap_' + str(chapter)
@@ -123,8 +146,9 @@ class ImageConverter():
                     self.run_common(path_chap, chap_to_search)
 
 
-#manga = Manga('b62659e0-fb91-4cf1-a62f-c4e058f9917a')
-#conv = ImageConverter(manga)
+manga = Manga('b62659e0-fb91-4cf1-a62f-c4e058f9917a')
+conv = ImageConverter(manga)
 #conv.convert_chapter('15')
 #conv.convert_volume('3')
+conv.convert_volumes_separately()
 #conv.convert_all()

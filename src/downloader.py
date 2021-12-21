@@ -135,6 +135,7 @@ class ImageDownloader():
 
 
 #manga = Manga('b62659e0-fb91-4cf1-a62f-c4e058f9917a')
+#manga = Manga('c52565c9-d99a-4380-9dc8-67369d448eb7')
 #downloader = ImageDownloader(manga)
 #downloader.download_volume('1')
 #downloader.download_chapter('3')

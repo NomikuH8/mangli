@@ -5,8 +5,9 @@ import asyncio
 import aiofile
 import aiohttp
 
-import configs
 from manga import Manga
+import configs
+import utils
 
 
 class ImageDownloader():
@@ -27,7 +28,7 @@ class ImageDownloader():
         '''
         Creates the directory for download.
         '''
-        validated_title = self._validate_filename(self.manga.data['title'])
+        validated_title = utils.validate_filename(self.manga.data['title'])
         self.full_path = fr'{configs.DOWNLOAD_PATH}/{validated_title}'
         if not os.path.exists(self.full_path):
             os.makedirs(self.full_path)
@@ -56,26 +57,8 @@ class ImageDownloader():
 
 
     def _set_image_path(self, image, array):
-        in_png = configs.IN_PNG
-        ext = 'png' if in_png else 'jpg'
-
-        image_path = fr'{self.full_path}/{str(array.index(image) + 1)}.{ext}'
+        image_path = fr'{self.full_path}/{str(array.index(image) + 1)}.png'
         self.image_paths.append(image_path)
-
-
-    def _validate_filename(self, text):
-        '''
-        Some manga titles have these characters, this could create some
-        problems while placing the images in a path.
-        '''
-        invalid_chars = ['<', '>', ':', '"', '/', '\\', '|', '?', '*']
-        new_text = text
-
-        for char in invalid_chars:
-            new_text_tmp = new_text.replace(char, '')
-            new_text = new_text_tmp
-
-        return new_text
 
 
     async def queue_image(self, chapter):
@@ -117,6 +100,7 @@ class ImageDownloader():
 
 
     def run(self, volume, chapter):
+        '''Runs the download'''
         self.image_paths = []
         self.create_download_directory()
         self.create_volume_directory(volume)

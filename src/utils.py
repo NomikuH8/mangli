@@ -28,9 +28,29 @@ def validate_filename(text):
     return new_text
 
 
+def parse_mangas(resp):
+    '''
+    Function to pass useful information to an object
+    '''
+    data = resp.json()['data']
+    mangas = []
+    for manga in data:
+        obj = {}
+        obj['id'] = manga['id']
+        obj['title'] = list(manga['attributes']['title'].values())[0]
+        obj['alt_titles'] = manga['attributes']['altTitles']
+        obj['status'] = manga['attributes']['status']
+        obj['content_rating'] = manga['attributes']['contentRating']
+        mangas.append(obj)
+    return mangas
+
+
 SITE_URL = 'https://mangadex.org/'
 CDN_URL = 'https://uploads.mangadex.org/'
 API_URL = 'https://api.mangadex.org/'
 
 MANGA_URL = API_URL + 'manga/'
 CHAPTER_URL = API_URL + 'chapter/'
+
+# each can be asc or desc, except relevance
+SEARCH_ORDER_OPTIONS = ['relevance', 'latestUploadedChapter', 'title', 'createdAt', 'followedCount', 'year']

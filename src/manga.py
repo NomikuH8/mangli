@@ -48,13 +48,20 @@ class Manga():
             attrs = data['attributes']
             rel_ships = data['relationships']
 
+            self.data['id'] = data['id']
             self.data['title'] = list(attrs['title'].values())[0]
 
-            self.data['altTitles'] = []
+            self.data['alt_titles'] = []
             for i in attrs['altTitles']:
-                self.data['altTitles'].append(i)
+                self.data['alt_titles'].append(i)
 
-            self.data['description'] = attrs['description']['en']
+            try:
+                if type(attrs['description']) == dict:
+                    self.data['description'] = list(attrs['description'].values())[0]
+                else:
+                    self.data['description'] = attrs['description'][0]
+            except IndexError:
+                self.data['description'] = 'No description available'
 
             self.data['original_lang'] = attrs['originalLanguage']
 
@@ -75,7 +82,7 @@ class Manga():
                     self.data['artist'] = i['attributes']['name']
                 elif i['type'] == 'cover_art':
                     # this was an attempt to make the url short
-                    _all_cdn_url = utils.CDN_URL + self.manga_id + '/covers/'
+                    _all_cdn_url = utils.CDN_URL + 'covers/' + self.manga_id + '/'
                     _filename = i['attributes']['fileName']
                     _cover_url = _all_cdn_url + _filename + '.' + str(configs.COVER_SIZE) + '.jpg'
                     self.data['cover_art'] = _cover_url
@@ -83,13 +90,19 @@ class Manga():
             print('failed retrieving manga information')
 
 
-    def get_volumes(self):
+    def get_volumes(self, get_translated, times_tested=1):
         '''
         This function gets all the volumes with the chapters.
         '''
-        _url = utils.MANGA_URL + self.manga_id + '/aggregate?translatedLanguage[]=en'
+        _url = ''
+        if get_translated:
+            _url = utils.MANGA_URL + self.manga_id + '/aggregate?translatedLanguage[]=en'
+        else:
+            _url = utils.MANGA_URL + self.manga_id + '/aggregate'
         _resp = requests.get(_url)
+        _vol_list = {}
         _vol_list = _resp.json()['volumes']
+
         self.data['volumes'] = {}
 
         if _resp.status_code == 200:
@@ -98,6 +111,13 @@ class Manga():
                 self.data['volumes'][i] = vol
         else:
             print('problem requesting chapters!')
+
+        if len(self.data['volumes']) == 0:
+            if times_tested > 3:
+                return []
+            self.get_volumes(False, times_tested + 1)
+
+
 
 
     def get_chapter(self, chapter):

@@ -1,6 +1,7 @@
 '''Object used to return search results and the home page'''
 import requests
 
+from manga import Manga
 import utils
 
 CONTENT_RATINGS = '&contentRating[]=safe&contentRating[]=suggestive&contentRating[]=erotica'
@@ -40,8 +41,18 @@ class MangaSearcher():
                 parsed_mangas.append(i)
         return parsed_mangas
 
+
+    def take_manga_page(self, manga_id):
+        manga = Manga(manga_id)
+        manga.get_info()
+        manga.get_volumes(True)
+        return manga.data
+
+
 #ms = MangaSearcher()
 #ayoya = ms.get_homepage(5, 2)
 #ayoya = ms.search_manga(10, 0, '', utils.SEARCH_ORDER_OPTIONS[0], 'desc')
+#manga = ms.take_manga_page('b62659e0-fb91-4cf1-a62f-c4e058f9917a')
+#print(manga)
 #for i in ayoya:
 #    print(i['title'])

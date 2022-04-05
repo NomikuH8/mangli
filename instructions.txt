@@ -1,0 +1,3 @@
+python needs to be 3.7+
+python needs to be in path
+run pip install -r requirements.txt

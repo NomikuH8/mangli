@@ -1,5 +1,5 @@
-## Mangli, a cli client and reader for mangadex.org
-
+## Mangli, a cli client for mangadex.org
+Still in development. Being rewritten too.
 
 ### Windows instructions
 todo

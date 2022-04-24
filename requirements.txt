@@ -1,0 +1,5 @@
+aiofile
+aiohttp
+natsort
+requests
+pillow

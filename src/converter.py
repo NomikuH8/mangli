@@ -3,6 +3,7 @@
 import os
 import re
 from PIL import Image
+from natsort import natsorted
 from PIL import ImageFile as pilImageFile
 
 from manga import Manga
@@ -17,7 +18,7 @@ class ImageConverter:
 
     def __init__(self, manga: Manga):
         self.manga = manga
-        self.manga.get_info()
+        #self.manga.get_info()
 
         self._converted_images = []
 
@@ -50,14 +51,13 @@ class ImageConverter:
                 self._add_image_to_conversion(rf"{i}/{str(j + 1)}.png")
 
         title = utils.validate_filename(self.manga.data["title"])
-        path_pdf = rf"{configs.DOWNLOAD_PATH}/pdfs/{title}"
+        path_pdf = rf"{configs.DOWNLOAD_PATH}"# "/{title}"
         if not os.path.exists(path_pdf):
             os.makedirs(path_pdf)
 
         pdf_file = rf"{path_pdf}/[{title_flag}] {title}.pdf"
         self._generate_pdf(pdf_file)
-        print("Pdf located in: " + path_pdf)
-        print(rf'Internet browser link: "file://{pdf_file}"')
+        print("Pdf located in: " + pdf_file)
 
         os.chdir(old_work_dir)
 
@@ -65,7 +65,7 @@ class ImageConverter:
         """Converts the entire manga to pdf (not recommended)"""
         old_work_dir = os.getcwd()
         manga_name = utils.validate_filename(self.manga.data["title"])
-        dir_path = rf"{configs.DOWNLOAD_PATH}/mangas/{manga_name}"
+        dir_path = rf"{configs.DOWNLOAD_PATH}/{manga_name}"
 
         os.chdir(dir_path)
         volumes = os.listdir(".")
@@ -86,7 +86,7 @@ class ImageConverter:
         """Convert one volume to pdf (most recommended)"""
         vol_to_search = "vol_" + str(volume)
         manga_name = utils.validate_filename(self.manga.data["title"])
-        dir_path = rf"{configs.DOWNLOAD_PATH}/mangas/{manga_name}"
+        dir_path = rf"{configs.DOWNLOAD_PATH}/{manga_name}"
         path = os.listdir(dir_path)
 
         chapters = []
@@ -94,21 +94,21 @@ class ImageConverter:
         for vol in path:
             if vol == vol_to_search:
                 path_vol = dir_path + "/" + vol
-                chap = 999999
-                for i in os.listdir(path_vol):
-                    num = int(re.findall(r"(?<=chap_)\d+", i)[-1])
-                    chap = min(chap, num)
-                for i in os.listdir(path_vol):
-                    chap_name = "chap_" + str(chap)
+                #chap = 999999
+                # for i in os.listdir(path_vol):
+                    # num = float(re.findall(r"(?<=chap_)[0-9\.]+", i)[-1])
+                    # chap = min(chap, num)
+                for i in natsorted(os.listdir(path_vol)):
+                    # chap_name = "chap_" + str(chap)
+                    chap_name = i
                     chapters.append(rf"{path_vol}/{chap_name}")
-                    chap += 1
 
                 self.run_common(chapters, vol_to_search)
 
     def convert_volumes_separately(self):
         """Convert all volumes to pdf separately"""
         manga_name = utils.validate_filename(self.manga.data["title"])
-        dir_path = rf"{configs.DOWNLOAD_PATH}/mangas/{manga_name}"
+        dir_path = rf"{configs.DOWNLOAD_PATH}/{manga_name}"
         path = os.listdir(dir_path)
 
         chapters = []
@@ -131,7 +131,7 @@ class ImageConverter:
         """Convert one chapter to pdf"""
         chap_to_search = "chap_" + str(chapter)
         manga_name = utils.validate_filename(self.manga.data["title"])
-        dir_path = rf"{configs.DOWNLOAD_PATH}/mangas/{manga_name}"
+        dir_path = rf"{configs.DOWNLOAD_PATH}/{manga_name}"
         path = os.listdir(dir_path)
         for vol in path:
             path_vol = dir_path + "/" + vol

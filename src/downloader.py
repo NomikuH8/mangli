@@ -17,8 +17,8 @@ class ImageDownloader:
 
     def __init__(self, manga: Manga):
         self.manga = manga
-        self.manga.get_info()
-        self.manga.get_volumes()
+        #self.manga.get_info()
+        #self.manga.get_volumes()
 
         self.image_paths = []
         self.full_path = ""
@@ -29,7 +29,7 @@ class ImageDownloader:
         Creates the directory for download.
         """
         validated_title = utils.validate_filename(self.manga.data["title"])
-        self.full_path = rf"{configs.DOWNLOAD_PATH}/mangas/{validated_title}"
+        self.full_path = rf"{configs.DOWNLOAD_PATH}/{validated_title}"
         if not os.path.exists(self.full_path):
             os.makedirs(self.full_path)
 
@@ -69,6 +69,7 @@ class ImageDownloader:
                 # added wait because it was a mess
                 time_wait = multiplier * urls.index(url)
                 self._set_image_path(url, urls)
+                if os.path.exists(self.image_paths[urls.index(url)]): continue
                 task = asyncio.ensure_future(
                     self._download_image(session, url, urls, 1, time_wait)
                 )
@@ -119,10 +120,14 @@ class ImageDownloader:
 
     def download_volume(self, volume):
         """Downloads a volume"""
-        vol_to_down = self.manga.data["volumes"][str(volume)].chapters
-        for i in vol_to_down.values():
-            print("Downloading chapter " + i["chapter"] + "...")
-            self.run(volume, i["chapter"])
+        vol_to_down = ''
+        try:
+            vol_to_down = self.manga.data["volumes"][str(volume)].chapters
+            for i in vol_to_down.values():
+                print("Downloading chapter " + i["chapter"] + "...")
+                self.run(volume, i["chapter"])
+        except KeyError:
+            print(f"Volume {volume} doesn't exist")
 
     def download_chapter(self, chapter):
         """Downloads one chapter."""

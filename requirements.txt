@@ -1,5 +1,0 @@
-git+https://github.com/CITGuru/PyInquirer.git
-requests>=2.26.0
-aiofile>=3.7.2
-aiohttp>=3.8.1
-Pillow>=8.4.0

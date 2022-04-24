@@ -1,6 +1,8 @@
 """This file holds all settings for the app.
 """
 
+import os
+
 # cover preview size
 # options:
 # 	512
@@ -20,4 +22,5 @@ DOWNREQ_TIME = 0.2
 # DELETE_IMAGES_AFTER_ZIP = True
 
 # download paths
-DOWNLOAD_PATH = ""
+# DOWNLOAD_PATH = ""
+DOWNLOAD_PATH = os.getcwd()

@@ -15,6 +15,7 @@ import requests
 from volume import Volume
 import configs
 import utils
+import sys
 
 
 class Manga:
@@ -95,6 +96,7 @@ class Manga:
                     self.data["cover_art"] = _cover_url
         else:
             print("failed retrieving manga information")
+            sys.exit(1)
 
     def get_volumes(self, get_translated, times_tested=1):
         """
@@ -144,12 +146,12 @@ class Manga:
         Returns the pages from the chapter requested and the hash to the cdn.
         """
         chapter_id = self.get_chapter(chapter)["id"]
-        _resp = requests.get(f"{utils.CHAPTER_URL}{chapter_id}")
+        _resp = requests.get(f"{utils.API_URL}at-home/server/{chapter_id}?forcePort443=false")
         pages = {}
-        pages["hash"] = _resp.json()["data"]["attributes"]["hash"]
+        pages["hash"] = _resp.json()["chapter"]["hash"]
         pages["filenames"] = []
 
-        for i in _resp.json()["data"]["attributes"]["data"]:
+        for i in _resp.json()["chapter"]["data"]:
             pages["filenames"].append(i)
 
         return pages

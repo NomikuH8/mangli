@@ -1,4 +1,4 @@
-'''
+"""
 data has these parameters:
     title - title of the menu, what will appear on the top
     prompt - prompt text
@@ -23,36 +23,40 @@ e.g.:
 
 operations is a dict of the program's operations, the available operations are:
     cancel_operation
-'''
+"""
 
 import os
 
-class text_menu():
-    def __init__(self, data: dict, options: list, cancel_operation, has_custom_answer: bool):
+
+class text_menu:
+    def __init__(
+        self, data: dict, options: list, cancel_operation, has_custom_answer: bool
+    ):
         self.data = data
         self.options = options
         self.cancel_operation = cancel_operation
         self.has_custom_answer = has_custom_answer
 
     def print_menu(self):
-        print(self.data['title'])
+        print(self.data["title"])
 
-        separator = ''
-        for char in range(len(self.data['title'])):
-            separator += '-'
+        separator = ""
+        for char in range(len(self.data["title"])):
+            separator += "-"
         print(separator)
 
         for option in self.options:
-            print(str(self.options.index(option) + 1) + '. ' + option[0])
+            print(str(self.options.index(option) + 1) + ". " + option[0])
 
-        if not self.has_custom_answer: print('\n')
+        if not self.has_custom_answer:
+            print("\n")
 
     def choose_option(self):
-        choice = ''
-        if self.data['prompt'] != None:
-            choice = input(self.data['prompt'])
+        choice = ""
+        if self.data["prompt"] != None:
+            choice = input(self.data["prompt"])
         else:
-            choice = input('Choice: ')
+            choice = input("Choice: ")
 
         try:
             choice = int(choice)
@@ -66,16 +70,14 @@ class text_menu():
             if choice == self.options.index(option) + 1:
                 option[1]()
 
-
     def custom_answer(self):
         answers = []
         for question in self.options:
             answer = input(question[0])
             question[1](answer)
 
-
     def main(self):
-        os.system('cls' if os.name == 'nt' else 'clear')
+        os.system("cls" if os.name == "nt" else "clear")
         self.print_menu()
         if self.has_custom_answer:
             self.custom_answer()

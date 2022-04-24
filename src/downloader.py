@@ -17,8 +17,8 @@ class ImageDownloader:
 
     def __init__(self, manga: Manga):
         self.manga = manga
-        #self.manga.get_info()
-        #self.manga.get_volumes()
+        # self.manga.get_info()
+        # self.manga.get_volumes()
 
         self.image_paths = []
         self.full_path = ""
@@ -69,7 +69,8 @@ class ImageDownloader:
                 # added wait because it was a mess
                 time_wait = multiplier * urls.index(url)
                 self._set_image_path(url, urls)
-                if os.path.exists(self.image_paths[urls.index(url)]): continue
+                if os.path.exists(self.image_paths[urls.index(url)]):
+                    continue
                 task = asyncio.ensure_future(
                     self._download_image(session, url, urls, 1, time_wait)
                 )
@@ -120,7 +121,7 @@ class ImageDownloader:
 
     def download_volume(self, volume):
         """Downloads a volume"""
-        vol_to_down = ''
+        vol_to_down = ""
         try:
             vol_to_down = self.manga.data["volumes"][str(volume)].chapters
             for i in vol_to_down.values():

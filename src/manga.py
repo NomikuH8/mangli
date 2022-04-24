@@ -98,14 +98,16 @@ class Manga:
             print("failed retrieving manga information")
             sys.exit(1)
 
-    def get_volumes(self, get_translated, times_tested=1):
+    def get_volumes(self, get_translated, times_tested=1, lang="en"):
         """
         This function gets all the volumes with the chapters.
         """
         _url = ""
         if get_translated:
             _url = (
-                utils.MANGA_URL + self.manga_id + "/aggregate?translatedLanguage[]=en"
+                utils.MANGA_URL
+                + self.manga_id
+                + f"/aggregate?translatedLanguage[]={lang}"
             )
         else:
             _url = utils.MANGA_URL + self.manga_id + "/aggregate"
@@ -129,7 +131,7 @@ class Manga:
         if len(self.data["volumes"]) == 0:
             if times_tested > 3:
                 return []
-            self.get_volumes(False, times_tested + 1)
+            self.get_volumes(False, times_tested + 1, lang)
 
     def get_chapter(self, chapter):
         """
@@ -146,7 +148,9 @@ class Manga:
         Returns the pages from the chapter requested and the hash to the cdn.
         """
         chapter_id = self.get_chapter(chapter)["id"]
-        _resp = requests.get(f"{utils.API_URL}at-home/server/{chapter_id}?forcePort443=false")
+        _resp = requests.get(
+            f"{utils.API_URL}at-home/server/{chapter_id}?forcePort443=false"
+        )
         pages = {}
         pages["hash"] = _resp.json()["chapter"]["hash"]
         pages["filenames"] = []

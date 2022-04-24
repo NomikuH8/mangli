@@ -18,7 +18,7 @@ class ImageConverter:
 
     def __init__(self, manga: Manga):
         self.manga = manga
-        #self.manga.get_info()
+        # self.manga.get_info()
 
         self._converted_images = []
 
@@ -51,7 +51,7 @@ class ImageConverter:
                 self._add_image_to_conversion(rf"{i}/{str(j + 1)}.png")
 
         title = utils.validate_filename(self.manga.data["title"])
-        path_pdf = rf"{configs.DOWNLOAD_PATH}"# "/{title}"
+        path_pdf = rf"{configs.DOWNLOAD_PATH}"  # "/{title}"
         if not os.path.exists(path_pdf):
             os.makedirs(path_pdf)
 
@@ -94,10 +94,10 @@ class ImageConverter:
         for vol in path:
             if vol == vol_to_search:
                 path_vol = dir_path + "/" + vol
-                #chap = 999999
+                # chap = 999999
                 # for i in os.listdir(path_vol):
-                    # num = float(re.findall(r"(?<=chap_)[0-9\.]+", i)[-1])
-                    # chap = min(chap, num)
+                # num = float(re.findall(r"(?<=chap_)[0-9\.]+", i)[-1])
+                # chap = min(chap, num)
                 for i in natsorted(os.listdir(path_vol)):
                     # chap_name = "chap_" + str(chap)
                     chap_name = i

@@ -21,7 +21,6 @@ Usage:
             note: can be "none"
                 none: chapters without a volume
             example: none 1 4 6-8
-        
 """
 
 LANG_MESSAGE = """
@@ -33,17 +32,33 @@ Language can be:
 
 
 def run():
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 2:
         print(HELP_MESSAGE)
         sys.exit(0)
 
     lang_prompt = 'Which language? (write "show" to show all supported languages) R: '
     lang_chose = input(lang_prompt)
-    while lang_chose == "show" or lang_chose == "":
+    while lang_chose == "show":
         if lang_chose == "show":
             print(LANG_MESSAGE)
         lang_chose = input(lang_prompt)
+    if lang_chose == "": lang_chose = "en"
+    
+    if len(sys.argv) == 2:
+        long_command(lang_chose)
+    
+    if len(sys.argv) > 2:
+        short_command(lang_chose)
 
+def long_command(lang_chose):
+    pass
+
+# short command because its the short way to download volumes
+# user need to provide:
+#   command
+#   manga-id
+#   volumes
+def short_command(lang_chose):
     conv_in = input("Convert all to pdf? [Y/n] ").lower()
     conv_bool = conv_in == "y" or conv_in == "yes"
 

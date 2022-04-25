@@ -140,7 +140,7 @@ class ImageDownloader:
                     found = True
                     self.run(i.volume_num, j)
         if not found:
-            print(f'Chapter {chapter} not found!')
+            print(f"Chapter {chapter} not found!")
 
 
 # manga = Manga('b62659e0-fb91-4cf1-a62f-c4e058f9917a')

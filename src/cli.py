@@ -44,8 +44,9 @@ def run():
         if lang_chose == "show":
             print(LANG_MESSAGE)
         lang_chose = input(lang_prompt)
-    if lang_chose == "": lang_chose = "en"
-    
+    if lang_chose == "":
+        lang_chose = "en"
+
     regex = r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
     tmp_id = sys.argv[1]
     try:
@@ -56,9 +57,10 @@ def run():
 
     if len(sys.argv) == 2:
         long_command(lang_chose)
-    
+
     if len(sys.argv) > 2:
         short_command(lang_chose)
+
 
 # long command because it's a harder way to download volumes, however,
 # it allows to download chapters individually
@@ -92,11 +94,11 @@ def long_command(lang_chose):
         print("(1) Download a volume")
         print("(2) Download a chapter")
         print("(e) Exit")
-    
+
     def print_volumes():
         print("--------- Download -------")
         print("------- Volumes List")
-        for i in list(manga.data['volumes'].values()):
+        for i in list(manga.data["volumes"].values()):
             print(f"({i.volume_num}) Vol. {i.volume_num}")
         print("(e) Return")
 
@@ -110,21 +112,21 @@ def long_command(lang_chose):
                 chap = list(manga.data["volumes"].values())[i].chapters[j]
                 print(f"({chap['chapter']}) Chap. {chap['chapter']}")
         print("(e) Return")
-    
+
     while True:
         if active_menu == "":
             print_info()
             selected = input("> ")
             # if selected.find('e') != -1:
-            if selected == 'e':
+            if selected == "e":
                 validated_title = utils.validate_filename(manga.data["title"])
                 full_path = rf"{configs.DOWNLOAD_PATH}/{validated_title}"
                 if rm_bool:
                     shutil.rmtree(full_path)
                 sys.exit(0)
-            elif selected.find('1') != -1:
+            elif selected.find("1") != -1:
                 active_menu = "down_vol"
-            elif selected.find('2') != -1:
+            elif selected.find("2") != -1:
                 active_menu = "down_chap"
             else:
                 continue
@@ -133,7 +135,7 @@ def long_command(lang_chose):
             print_volumes()
             selected = input("> ")
             # if selected.find('e') != -1 and selected.find('e') < 1:
-            if selected == 'e':
+            if selected == "e":
                 active_menu = ""
                 continue
             else:
@@ -145,7 +147,7 @@ def long_command(lang_chose):
             print_chapters()
             selected = input("> ")
             # if selected.find('e') != -1:
-            if selected == 'e':
+            if selected == "e":
                 active_menu = ""
                 continue
             else:
@@ -153,7 +155,6 @@ def long_command(lang_chose):
                 if conv_bool:
                     conv.convert_chapter(selected)
 
-                
 
 # short command because its the short way to download volumes.
 # user need to provide:

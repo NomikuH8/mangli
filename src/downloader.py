@@ -133,10 +133,14 @@ class ImageDownloader:
     def download_chapter(self, chapter):
         """Downloads one chapter."""
         print("Downloading chapter " + chapter + "...")
+        found = False
         for i in self.manga.data["volumes"].values():
             for j in i.chapters:
                 if j == chapter:
+                    found = True
                     self.run(i.volume_num, j)
+        if not found:
+            print(f'Chapter {chapter} not found!')
 
 
 # manga = Manga('b62659e0-fb91-4cf1-a62f-c4e058f9917a')

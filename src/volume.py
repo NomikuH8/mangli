@@ -1,5 +1,9 @@
 """
 Script to make my life easier
+^ 4 months ago
+today this made my life harder
+
+oh god why didn't i leave this as a simple dict
 """
 
 from dataclasses import dataclass

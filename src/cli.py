@@ -68,13 +68,6 @@ def run():
 #   command
 #   manga-id
 def long_command(lang_chose):
-    manga = Manga(sys.argv[1])
-    manga.get_info()
-    manga.get_volumes(True, lang=lang_chose)
-
-    down = ImageDownloader(manga)
-    conv = ImageConverter(manga)
-
     conv_in = input("Convert to pdf (separately, by chapters)? [Y/n] ").lower()
     conv_bool = conv_in == "y" or conv_in == "yes"
 
@@ -82,6 +75,13 @@ def long_command(lang_chose):
     if conv_bool:
         rm_in = input("Remove all images after conversion? [Y/n] ").lower()
     rm_bool = rm_in == "y" or rm_in == "yes"
+
+    manga = Manga(sys.argv[1])
+    manga.get_info()
+    manga.get_volumes(True, lang=lang_chose)
+
+    down = ImageDownloader(manga)
+    conv = ImageConverter(manga)
 
     active_menu = ""
 

@@ -12,8 +12,15 @@ mangli, a cli app to download and convert mangas to pdf from mangadex.org
 
 Usage:
 
+    long way:
+    mangli <manga-id>
+    e.g.: mangli a96676e5-8ae2-425e-b549-7f15dd34a6d8
+
+    then use the cli interface
+
+    short way:
     mangli <manga-id> <volumes...>
-    ex.: mangli a96676e5-8ae2-425e-b549-7f15dd34a6d8 1 4 6-8 none
+    e.g.: mangli a96676e5-8ae2-425e-b549-7f15dd34a6d8 1 4 6-8 none
 
     arguments:
         manga-id: manga id, you can take it in them manga page

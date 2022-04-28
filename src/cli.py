@@ -129,7 +129,8 @@ def long_command(lang_chose):
                 validated_title = utils.validate_filename(manga.data["title"])
                 full_path = rf"{configs.DOWNLOAD_PATH}/{validated_title}"
                 if rm_bool:
-                    shutil.rmtree(full_path)
+                    try: shutil.rmtree(full_path)
+                    except: pass
                 sys.exit(0)
             elif selected.find("1") != -1:
                 active_menu = "down_vol"
@@ -241,7 +242,8 @@ def short_command(lang_chose):
     validated_title = utils.validate_filename(manga.data["title"])
     full_path = rf"{configs.DOWNLOAD_PATH}/{validated_title}"
     if rm_bool:
-        shutil.rmtree(full_path)
+        try: shutil.rmtree(full_path)
+        except: pass
 
 
 if __name__ == "__main__":

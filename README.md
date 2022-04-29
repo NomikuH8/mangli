@@ -1,6 +1,8 @@
 ## Mangli, a cli client for mangadex.org
 
-how to use:
+### how to use:
+
+#### short way:
 
 `mangli <manga-id> <volumes>`
 
@@ -9,6 +11,8 @@ how to use:
 `<volumes>` are the volumes that you want to download. e.g.: `1 4-6 8 9`
 
 a volume can be `none`. the `none` volume contains chapters without volume, that may be waiting it to finish. 
-    
-get more options, like download and convert a single chapter (not yet implemented):
+
+#### long way:
+
+get more options, like download and convert a single chapter:
 `mangli <manga-id>`

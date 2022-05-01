@@ -12,6 +12,7 @@
 # scanlators
 import re
 import requests
+from natsort import natsorted
 from volume import Volume
 import configs
 import utils
@@ -137,10 +138,13 @@ class Manga:
         """
         Returns the chapter dict, with its number, id and count
         """
-        for i in range(len(list(self.data["volumes"].values()))):
-            for j in list(self.data["volumes"].values())[i].chapters:
+        vol_list = list(self.data["volumes"].values())
+        vol_list.reverse()
+        # for i in range(len()):
+        for i in vol_list:
+            for j in vol_list[vol_list.index(i)].chapters:
                 if j == chapter:
-                    return list(self.data["volumes"].values())[i].chapters[j]
+                    return vol_list[vol_list.index(i)].chapters[j]
         return {}
 
     def get_pages(self, chapter):
@@ -148,9 +152,8 @@ class Manga:
         Returns the pages from the chapter requested and the hash to the cdn.
         """
         chapter_id = self.get_chapter(chapter)["id"]
-        _resp = requests.get(
-            f"{utils.API_URL}at-home/server/{chapter_id}?forcePort443=false"
-        )
+        url = f"{utils.API_URL}at-home/server/{chapter_id}?forcePort443=false"
+        _resp = requests.get(url)
         pages = {}
         pages["hash"] = _resp.json()["chapter"]["hash"]
         pages["filenames"] = []

@@ -82,10 +82,8 @@ class ImageDownloader:
         self, session, url, url_arr, time_tested=1, time_to_wait=1
     ):
         try:
+            await asyncio.sleep(time_to_wait)
             async with session.get(url) as _resp:
-                # print(f'Downloading page: {url_arr.index(url) + 1}/{len(url_arr)}')
-                # print(url + 'aaaaaaaaaaaaaaaaaaaaaa' + str(_resp.status))
-                await asyncio.sleep(time_to_wait)
                 if _resp.status == 200:
                     async with aiofile.async_open(
                         self.image_paths[url_arr.index(url)], "wb"
